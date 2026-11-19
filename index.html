@@ -617,6 +617,53 @@ body { background: #e6ecdf; }
 
 .a-offline-entry { color: var(--lime-alert); }
 
+.a-home .a-habits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.a-habit {
+  min-width: 0;
+  padding: 10px 11px;
+  background: #fff;
+  border: 1px solid #d3dfc9;
+  border-radius: 13px;
+  text-align: left;
+  color: #223b28;
+}
+.a-habit-label, .a-habit-status { display: flex; align-items: center; }
+.a-habit-label { gap: 7px; white-space: nowrap; }
+.a-habit-label i {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 31px;
+  height: 31px;
+  border-radius: 9px;
+  background: #e4f1ce;
+  color: #33512a;
+  --icon-accent: #598737;
+}
+.a-habit-label b { font-size: 15px; font-weight: 700; letter-spacing: -.035em; }
+.a-habit[data-a-habit="trade"] .a-habit-label i { background: #e6eef0; color: #304f57; --icon-accent: #537883; }
+.a-habit-status {
+  gap: 4px;
+  margin-top: 8px;
+  padding-top: 6px;
+  min-height: 24px;
+  border-top: 1px solid #e5e9df;
+  color: #4c5a4a;
+  font-size: 12px;
+}
+.a-habit-status strong { margin-left: auto; color: #8d3c1b; font: 700 18px/1.2 var(--num); }
+.a-habit-status small { margin-left: 3px; font: 550 11px var(--face); }
+.a-habit-status svg { color: #65725e; }
+.a-habit:focus-visible { outline: 2px solid #416932; outline-offset: 2px; }
+.a-habit:active { background: #f1f6ea; }
+@media (max-width: 355px) {
+  .a-habit { padding: 9px 8px; }
+  .a-habit-label { gap: 5px; }
+  .a-habit-label b { font-size: 14px; }
+  .a-habit-label i { width: 26px; height: 27px; }
+  .a-habit-label svg { width: 19px; }
+}
+
 .a-home .a-trade {
   position: relative;
   isolation: isolate;
@@ -855,6 +902,97 @@ body { background: #e6ecdf; }
 .tr-cover {display:grid;place-content:center;justify-items:center;gap:9px;min-height:155px;font-size:12px;font-weight:680;}
 .tr-cover-icon {display:grid;place-items:center;background:#ffffffb3;border:1px solid #c8d8bc;width:75px;height:75px;border-radius:16px;}
 .tr-file-text {padding:20px 16px;}.tr-file-text small {font-size:12px;color:#536750;}.tr-file-text h3 {font-size:20px;line-height:1.55;margin:6px 0 12px;overflow-wrap:anywhere;}.tr-file-text p {margin:0;}
+
+.ha-page {
+  display: grid;
+  gap: 12px;
+  color: var(--ink);
+}
+.ha-meta, .ha-filter, .ha-row-heading, .ha-row-compare {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ha-meta, .ha-filter { justify-content: space-between; }
+.ha-meta time, .ha-note, .ha-field-note, .ha-row-sub, .ha-row-compare {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.ha-filter > span { font-size: 13px; font-weight: 650; }
+.ha-segment {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: #e7eddf;
+}
+.ha-segment button {
+  min-width: 51px;
+  min-height: 38px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 650;
+}
+.ha-segment button[aria-pressed="true"] { background: #315337; color: white; }
+.ha-group { display: grid; gap: 8px; }
+.ha-group h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 1px 0 0;
+  font-size: 17px;
+}
+.ha-group h3 small { color: var(--muted); font-size: 12px; font-weight: 550; }
+.ha-row, .ha-comparison, .ha-facts {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.ha-row {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  min-width: 0;
+  padding: 13px;
+  text-align: left;
+  line-height: 1.45;
+}
+.ha-row-heading b { margin-right: auto; font-size: 15px; }
+.ha-row-heading > svg { color: var(--muted); }
+.ha-issue {
+  flex: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #fff0e7;
+  color: #893c20;
+  font-size: 11px;
+  font-weight: 650;
+}
+.ha-row-compare { flex-wrap: wrap; column-gap: 4px; row-gap: 0; margin-top: 5px; }
+.ha-row-compare strong { color: var(--ink); }
+.ha-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 15px 0;
+  background: #eef4e4;
+}
+.ha-comparison > div { display: grid; align-content: start; gap: 6px; padding: 0 12px; }
+.ha-comparison > div + div { border-left: 1px solid #ced9c3; }
+.ha-comparison span, .ha-facts dt { font-size: 12px; color: var(--muted); }
+.ha-comparison b {
+  font: 650 clamp(17px, 4.8vw, 21px)/1.35 var(--num);
+  font-variant-numeric: tabular-nums;
+  color: #29432e;
+  white-space: nowrap;
+}
+.ha-facts { display: grid; padding: 0 13px; margin: 0; }
+.ha-facts > div { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 14px; padding: 11px 0; }
+.ha-facts > div + div { border-top: 1px solid var(--line); }
+.ha-facts dd { margin: 0; text-align: right; font-size: 13px; line-height: 1.5; font-weight: 600; }
+.ha-note, .ha-field-note { margin: 0; }
+.ha-field-note { padding: 2px 1px; }
 </style></head>
 <body>
 <div id="board" hidden>
@@ -2364,6 +2502,142 @@ body { background: #e6ecdf; }
     if (control.hasAttribute('data-training-file')) fileCard(Number(control.dataset.trainingFile));
   });
 })();
+
+;
+(() => {
+  'use strict';
+
+  const cabinetAlerts = [
+    {
+      id: 'late', store: '青禾咖啡（示例店）', device: 'DEMO-C01', site: '示例街区 A 座一层 · 收银台左侧',
+      event: '上线', issue: '上线偏晚', actual: '09:45', current: '在线',
+      history: {1: '08:55', 7: '08:48–09:06', 30: '08:40–09:12'}
+    },
+    {
+      id: 'early', store: '松果书屋（示例店）', device: 'DEMO-C02', site: '示例街区 B 座二层 · 服务台旁',
+      event: '离线', issue: '离线偏早', actual: '15:30', current: '离线',
+      history: {1: '20:52', 7: '20:40–21:10', 30: '20:32–21:18'}
+    }
+  ];
+  // 同一条流水提醒可从门店或关联机柜查看。两种范围不重复计入入口数量。
+  const tradeAlerts = [{
+    id: 'slow', store: '松果书屋（示例店）', device: 'DEMO-C02', site: '示例街区 B 座二层 · 服务台旁',
+    merchant: {actual: 10.50, history: {1: 48, 7: 45.50, 30: 46.20}},
+    deviceScope: {actual: 0, history: {1: 24, 7: 22.50, 30: 23.10}}
+  }];
+  const titles = {cabinet: '机柜行为习惯', trade: '交易行为习惯'};
+  const windows = [1, 7, 30];
+  const scopes = {merchant: '商户', deviceScope: '机柜'};
+  const index = {cabinet: cabinetAlerts, trade: tradeAlerts};
+  const money = value => '¥' + value.toFixed(2);
+  const glyph = (name, size = 16) => window.icon(name, size);
+
+  function filters(type, days, scope) {
+    const periods = windows.map(n =>
+      `<button type="button" data-ha-days="${n}" aria-pressed="${n === days}">近 ${n} 天</button>`).join('');
+    const scopeTabs = Object.entries(scopes).map(([key, label]) =>
+      `<button type="button" data-ha-scope="${key}" aria-pressed="${scope === key}">按${label}</button>`).join('');
+    return `<div class="ha-filter"><span>历史学习窗口</span><div class="ha-segment" role="group" aria-label="历史学习窗口">${periods}</div></div>
+      ${type === 'trade' ? `<div class="ha-filter"><span>流水范围</span><div class="ha-segment" role="group" aria-label="流水范围">${scopeTabs}</div></div>` : ''}`;
+  }
+  function snapshot() {
+    return '<div class="ha-meta"><span class="fl-context"><span></span>演示数据</span><time datetime="2026-11-12T17:00">11 月 12 日 · 截至 17:00</time></div>';
+  }
+  function comparison(type, row, days, scope) {
+    if(type === 'cabinet')return {
+      label: '今日' + row.event, actual: row.actual,
+      previous: days === 1 ? '昨日' + row.event : '近 ' + days + ' 天' + row.event + '时段', typical: row.history[days]
+    };
+    const amounts = row[scope];
+    return {
+      label: '今日同期实付', actual: money(amounts.actual),
+      previous: days === 1 ? '昨日同期实付' : '近 ' + days + ' 天同期日均', typical: money(amounts.history[days])
+    };
+  }
+  function compareCard(values) {
+    return `<div class="ha-comparison"><div><span>${values.label}</span><b>${values.actual}</b></div>
+      <div><span>${values.previous}</span><b>${values.typical}</b></div></div>`;
+  }
+  function heading(type, row, scope) {
+    return type === 'trade' && scope === 'deviceScope' ? row.device : row.store;
+  }
+  function subtitle(type, row, scope) {
+    if(type === 'trade' && scope === 'merchant')return '关联机柜 ' + row.device;
+    return type === 'trade' ? row.store : row.device;
+  }
+  function description(type, days, scope) {
+    if(type === 'trade')return scope === 'merchant'
+      ? '汇总门店全部机柜的实付金额，对照每天截至 17:00 的累计值。'
+      : '仅统计这台机柜的实付金额，对照每天截至 17:00 的累计值。';
+    return days === 1 ? '用昨天的上下线时刻，对照今天的实际记录。'
+      : `用此前 ${days} 天的上下线时段，对照今天的实际记录。`;
+  }
+  function list(type, days, scope) {
+    const rows = index[type];
+    const unit = type === 'cabinet' ? '台' : '项';
+    return `<section class="ha-group"><h3>今日异常 <small>${rows.length} ${unit}</small></h3>${rows.map(row => {
+      const values = comparison(type, row, days, scope);
+      return `<button class="ha-row" type="button" data-ha-row="${row.id}"><span class="ha-row-heading">
+        <b>${heading(type, row, scope)}</b><span class="ha-issue">${row.issue || '流水偏低'}</span>${glyph('chevron-right',14)}</span>
+        <span class="ha-row-sub">${subtitle(type, row, scope)}</span>
+        <span class="ha-row-compare">${values.label} <strong>${values.actual}</strong><span>·</span>${values.previous} ${values.typical}</span></button>`;
+    }).join('')}</section>`;
+  }
+  function facts(entries) {
+    return `<dl class="ha-facts">${entries.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>`;
+  }
+  function detail(type, row, days, scope) {
+    const cabinet = type === 'cabinet';
+    const entries = [['门店',row.store],[cabinet ? '机柜编号' : '关联机柜',row.device],['摆放位置',row.site]];
+    if(cabinet)entries.push(['17:00 设备状态',row.current]);
+    const fieldNote = cabinet
+      ? row.id === 'late' ? '今天的上线时间晚于参考记录。可先向店员核对开店和接通电源的时间。' : '今天的离线时间早于参考记录。可先核对门店营业情况，再到服务台旁检查机柜供电和网络。'
+      : '可结合门店营业情况与设备运行记录，核对今天的交易变化。';
+    return `<section class="ha-group"><h3>${cabinet ? row.issue : scopes[scope] + '流水偏低'}</h3>
+      ${compareCard(comparison(type, row, days, scope))}</section>
+      <section class="ha-group"><h3>上门核对</h3>${facts(entries)}<p class="ha-field-note">${fieldNote}</p></section>`;
+  }
+  function paint(page) {
+    const {haType: type, haRowKey, haScope: scope} = page.dataset;
+    const days = Number(page.dataset.haWindow);
+    const row = index[type].find(item => item.id === haRowKey);
+    page.innerHTML = `${snapshot()}${filters(type, days, scope)}<p class="ha-note">${description(type, days, scope)}</p>
+      ${row ? detail(type, row, days, scope) : list(type, days, scope)}`;
+  }
+  function open(type, rowId = '', days = 7, scope = 'merchant') {
+    if(type !== 'cabinet' && type !== 'trade')return;
+    const title = rowId ? (type === 'cabinet' ? '机柜异常详情' : '流水异常详情') : titles[type];
+    const page = document.createElement('section');
+    page.className = 'ha-page';
+    Object.assign(page.dataset, {haType: type, haRowKey: rowId, haWindow: String(days), haScope: scope});
+    paint(page);
+    window.showSheet(title, page.outerHTML, {flow: true, key: 'ha.' + type + '.' + rowId});
+  }
+  document.addEventListener('click', event => {
+    const button = event.target.closest('.ha-page button');
+    if(!button)return;
+    const page = button.closest('.ha-page');
+    const {haType: type, haScope: scope, haWindow: period} = page.dataset;
+    if(button.hasAttribute('data-ha-row')){
+      const key = button.dataset.haRow;
+      if(index[type].some(item => item.id === key))open(type, key, Number(period), scope);
+      return;
+    }
+    const days = Number(button.dataset.haDays);
+    let selector;
+    if(windows.includes(days)){
+      page.dataset.haWindow = String(days);
+      selector = '[data-ha-days="' + days + '"]';
+    }else if(Object.prototype.hasOwnProperty.call(scopes, button.dataset.haScope)){
+      page.dataset.haScope = button.dataset.haScope;
+      selector = '[data-ha-scope="' + button.dataset.haScope + '"]';
+    }else return;
+    paint(page);
+    page.querySelector(selector)?.focus({preventScroll: true});
+  });
+  window.habitAlertCounts = Object.freeze({cabinet: cabinetAlerts.length, trade: tradeAlerts.length});
+  window.openHabitAlerts = type => open(type);
+})();
 </script>
 <script>(() => {
   'use strict';
@@ -2648,6 +2922,20 @@ body { background: #e6ecdf; }
     return `<section><div class="a-sh"><h2>待办事项</h2><button type="button" data-detail="待办事项">查看全部 ${icon('chevron-right', 13)}</button></div>
       <div class="a-queue">${taskEntries.map(([name, count, symbol], i) => `<button type="button" class="a-task task-${i}" data-detail="${name}"><span class="a-task-top">${icon(symbol, 24)}${count ? `<b>${count}</b>` : '<i aria-label="有预警"></i>'}</span><span>${name}</span></button>`).join('')}</div></section>`;
   }
+  function renderHabitAlerts() {
+    const entries = [
+      {kind:'cabinet', title:'机柜行为习惯', status:'上下线异常', unit:'台', icon:'mg-我的设备'},
+      {kind:'trade', title:'交易行为习惯', status:'流水异常', unit:'项', icon:'receipt-text'}
+    ];
+    const buttons = entries.map(item => {
+      const count = window.habitAlertCounts[item.kind];
+      return `<button type="button" class="a-habit" data-a-habit="${item.kind}" aria-haspopup="dialog">
+        <span class="a-habit-label"><i aria-hidden="true">${icon(item.icon,22)}</i><b>${item.title}</b></span>
+        <span class="a-habit-status"><span>${item.status}</span><strong>${count}<small>${item.unit}</small></strong>${icon('chevron-right',13)}</span>
+      </button>`;
+    });
+    return `<section class="a-habits" aria-label="行为习惯预警入口">${buttons.join('')}</section>`;
+  }
   function renderCabinets(data) {
     const counts = [bound, online, offline];
     return `<section class="a-operations" aria-label="设备运行"><div class="a-hero">
@@ -2708,12 +2996,13 @@ body { background: #e6ecdf; }
     cabinetPeriod = data;
     return `<div class="a-home"><div class="a-title"><h1>赏电·代理版</h1><div class="a-quick">
       <button type="button" data-a-panel="notice">公告</button><button type="button" data-a-panel="message">消息</button></div></div>
-      ${renderCabinets(data)}${renderTasks()}${renderSales()}${renderLoss()}</div>`;
+      ${renderCabinets(data)}${renderTasks()}${renderHabitAlerts()}${renderSales()}${renderLoss()}</div>`;
   };
 
   document.addEventListener('click', e => {
-    const button = e.target.closest('button[data-a-period],button[data-a-metric],button[data-a-panel],button[data-a-review]');
+    const button = e.target.closest('button[data-a-period],button[data-a-metric],button[data-a-panel],button[data-a-review],button[data-a-habit]');
     if (!button) return;
+    if (button.hasAttribute('data-a-habit')) { window.openHabitAlerts(button.dataset.aHabit); return; }
     if (button.dataset.aPeriod) {
       salesPeriod = button.dataset.aPeriod;
       const block = button.closest('.a-trade');
