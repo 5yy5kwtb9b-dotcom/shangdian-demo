@@ -52,6 +52,30 @@ svg{display:inline-block;flex:none;vertical-align:middle}
 @media(max-width:355px){#view{padding-left:13px;padding-right:13px}.appbar{padding-left:15px;padding-right:15px}}
 @media(prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(18px);opacity:.6}to{transform:translateY(0);opacity:1}}}
 
+.appbar-actions{display:flex;align-items:center;gap:12px}
+a.overview-entry{font-size:12px;font-weight:630;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
+.embedded-prototype .appbar .overview-entry{display:none}
+#board.is-overview{padding:0 0 20px;min-height:100vh}
+#board.is-overview .board-head{display:none}
+.overview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:1240px;margin:0 auto;padding:max(7px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 7px max(12px,env(safe-area-inset-left))}
+.overview-toolbar h1{font-size:17px;letter-spacing:-.03em;line-height:1.3;margin:0}
+.overview-toolbar a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 6px;text-decoration:none;font-size:13px;font-weight:630}
+#overview-download{padding:0 12px;border-radius:8px;background:var(--accent);color:white}
+#board.is-overview #frame-stage{position:relative;width:min(100%,1240px);margin:0 auto;overflow:hidden}
+#board.is-overview #frames{position:absolute;left:0;top:0;width:1240px;max-width:none;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:16px;padding:16px;margin:0;background:#e9eee3;transform-origin:0 0}
+.overview-col{min-width:0}
+.overview-col h2{font-size:17px;font-weight:700;padding:3px 3px 10px;line-height:1.35}
+#board.is-overview .frame{border-radius:14px;min-height:0;max-height:none;height:auto;box-shadow:0 3px 11px #2335210d}
+#board.is-overview .frame iframe{height:680px}
+html.overview-child,html.overview-child body{height:auto;min-height:0;overflow:hidden}
+html.overview-child #app{height:auto;min-height:0;max-width:none;overflow:visible}
+html.overview-child #scroller{flex:none;overflow:visible;min-height:0}
+html.overview-child #tabs{position:static}
+html.overview-child #app.overview-dialog>.appbar,html.overview-child #app.overview-dialog>#scroller,html.overview-child #app.overview-dialog>#tabs{display:none}
+html.overview-child #app #overlay:not([hidden]){display:block;position:static;inset:auto;backdrop-filter:none;background:var(--paper)}
+html.overview-child #app #overlay:not([hidden]) .sheet{height:auto;min-height:0;max-height:none;overflow:visible;border-radius:0;box-shadow:none}
+html.overview-child #app #overlay .sheet-header{position:static}
+
 .detail-body {
   --detail-ink: #262638;
   --detail-muted: #626375;
@@ -834,11 +858,12 @@ body { background: #e6ecdf; }
 </style></head>
 <body>
 <div id="board" hidden>
-  <header class="board-head"><div class="board-brand"><span class="brand-symbol"></span><strong>设备看板</strong></div><div class="board-meta"><i></i>示例数据</div></header>
-  <main class="frames" id="frames"></main>
+  <header class="board-head"><div class="board-brand"><span class="brand-symbol"></span><strong>设备看板</strong></div><div class="board-meta"><a class="overview-entry" href="?view=overview">三页全览</a><i></i>示例数据</div></header>
+  <nav class="overview-toolbar" aria-label="全览操作" hidden><a id="overview-return" href="./">返回原型</a><h1>三页全览</h1><a id="overview-download" href="three-pages.png" download>保存整图</a></nav>
+  <div id="frame-stage"><main class="frames" id="frames"></main></div>
 </div>
 <div id="app" hidden>
-  <header class="appbar"><div class="brand"><span class="brand-symbol" aria-hidden="true"></span><strong>赏电</strong><span class="brand-divider"></span><span class="org-name">深圳</span></div><span class="demo-indicator" title="页面展示参考图中的示例数据"><i></i>演示</span></header>
+  <header class="appbar"><div class="brand"><span class="brand-symbol" aria-hidden="true"></span><strong>赏电</strong><span class="brand-divider"></span><span class="org-name">深圳</span></div><div class="appbar-actions"><a class="overview-entry" href="?view=overview">三页全览</a><span class="demo-indicator" title="页面展示参考图中的示例数据"><i></i>演示</span></div></header>
   <main class="scroll-area" id="scroller" tabindex="-1"><div id="view"></div></main>
   <nav class="tabbar" id="tabs" aria-label="主导航"></nav>
   <div id="overlay" class="overlay" hidden><article class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="handle"></div><div class="sheet-header"><button class="sheet-back" type="button" aria-label="返回上一级" hidden></button><h2 id="sheet-title" tabindex="-1"></h2><button class="sheet-close" type="button" aria-label="关闭详情"></button></div><div id="sheet-body"></div></article></div>
@@ -2352,7 +2377,8 @@ body { background: #e6ecdf; }
     { title: '设备管理', symbol: '我的设备', entries: ['我的设备', '下级设备', '设备下发', '设备召回', '身份码'] },
     { title: '财务管理', symbol: '活动奖励', entries: ['活动奖励'] },
   ];
-  const openGroups = new Set([1]);
+  const fullPage = new URLSearchParams(location.search).get('view') === 'overview-child';
+  const openGroups = new Set(fullPage ? groups.map((_, index) => index) : [1]);
   const featureHints = {'商机':'3 公里内', '加薪答题':'本期试卷', '销售培训':'课件与视频'};
   const keywords = {'商机':'附近 商户 门店 位置 定位 装机 商户车', '加薪答题':'考试 选择题 试卷 积分 知识库', '销售培训':'学习 文案 话术 PPT 课件 视频'};
   const searchCollapsed = new Set();
@@ -2714,6 +2740,13 @@ body { background: #e6ecdf; }
   const params = new URLSearchParams(location.search);
   const initialRoute = document.documentElement.dataset.screen || params.get('screen');
   const fixedScreen = Boolean(initialRoute);
+  const overview = params.get('view') === 'overview';
+  const overviewChild = params.get('view') === 'overview-child' && Object.hasOwn(routes, initialRoute);
+  const overviewFrames = new Map();
+  const reportedFrames = new Set();
+  const frameOrigin = location.protocol === 'file:' ? 'null' : location.origin;
+  document.documentElement.classList.toggle('overview-child', overviewChild);
+  document.documentElement.classList.toggle('embedded-prototype', fixedScreen && window.parent !== window);
   const media = matchMedia('(min-width: 1080px)');
   let route = Object.prototype.hasOwnProperty.call(routes,initialRoute) ? initialRoute : 'home';
   const positions = {home:0,manage:0,profile:0};
@@ -2750,6 +2783,7 @@ body { background: #e6ecdf; }
     const item=stack[level-1];
     depth=level;
     overlay.hidden=!item;
+    if(overviewChild)byId('app').classList.toggle('overview-dialog',Boolean(item));
     for(const el of [document.querySelector('.appbar'),byId('scroller'),byId('tabs')])el.inert=Boolean(item);
     if(!item){
       overlay.classList.remove('flow-sheet');byId('sheet-body').replaceChildren();
@@ -2834,23 +2868,51 @@ body { background: #e6ecdf; }
     selected[period]=val;
     closeSheet();render();
   });
+  function screenURL(mode,screen) {
+    const url=new URL(location.href);
+    url.hash='';
+    url.searchParams.delete('screen');
+    url.searchParams.delete('view');
+    if(mode)url.searchParams.set('view',mode);
+    if(screen)url.searchParams.set('screen',screen);
+    return url.href;
+  }
+  function sizeOverview() {
+    const stage=byId('frame-stage'), frames=byId('frames');
+    if(!stage.clientWidth || !frames.offsetWidth)return;
+    const scale=Math.min(1,stage.clientWidth/frames.offsetWidth);
+    frames.style.transform='scale('+scale+')';
+    stage.style.height=Math.ceil(frames.offsetHeight*scale)+'px';
+  }
   function configure() {
-    const board=media.matches && !fixedScreen;
+    const board=overview || (media.matches && !fixedScreen);
     byId('board').hidden=!board;
     byId('app').hidden=board;
+    byId('board').classList.toggle('is-overview',overview);
+    document.querySelector('.overview-toolbar').hidden=!overview;
     if(board) {
       if(!byId('frames').children.length) {
+        if(overview)byId('frames').dataset.overviewReady='false';
         for(const [key,[name]] of Object.entries(routes)) {
           const frame=document.createElement('div');
           frame.className='frame';
           const iframe=document.createElement('iframe');
           iframe.title=(key==='manage'?'管理':name)+'交互预览';
-          const url=new URL(location.href);
-          url.hash='';url.searchParams.set('screen',key);
-          iframe.src=url.href;
-          frame.append(iframe);byId('frames').append(frame);
+          iframe.src=screenURL(overview?'overview-child':'',key);
+          frame.append(iframe);
+          if(overview){
+            const column=document.createElement('section'), heading=document.createElement('h2');
+            column.className='overview-col';
+            heading.textContent=key==='manage'?'业务中心':name;
+            iframe.dataset.overviewScreen=key;
+            iframe.setAttribute('scrolling','no');
+            overviewFrames.set(key,iframe);
+            column.append(heading,frame);
+            byId('frames').append(column);
+          }else byId('frames').append(frame);
         }
       }
+      if(overview)sizeOverview();
     } else if(!byId('tabs').children.length) {
       document.querySelector('.sheet-close').innerHTML=icon('x',18);
       render();
@@ -2885,7 +2947,42 @@ body { background: #e6ecdf; }
     if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   });
+  for(const link of document.querySelectorAll('.overview-entry'))link.href=screenURL('overview');
+  byId('overview-return').href=screenURL('');
+  const imageFile='赏电展业台-三页全览.png';
+  const download=byId('overview-download');
+  download.href=new URL(location.protocol==='file:'?imageFile:'three-pages.png',location.href).href;
+  download.download=imageFile;
+  if(overview){
+    window.addEventListener('message',event=>{
+      const data=event.data;
+      if(event.origin!==frameOrigin || data?.type!=='sd.overview.height.v1')return;
+      const frame=overviewFrames.get(data.screen);
+      if(!frame || event.source!==frame.contentWindow || !Number.isFinite(data.height) || data.height<=0 || data.height>100000)return;
+      frame.style.height=Math.ceil(data.height)+'px';
+      reportedFrames.add(data.screen);
+      sizeOverview();
+      if(reportedFrames.size===Object.keys(routes).length)byId('frames').dataset.overviewReady='true';
+    });
+    window.addEventListener('resize',sizeOverview);
+    if(window.ResizeObserver)new ResizeObserver(sizeOverview).observe(byId('frames'));
+  }
   configure();
+  if(overviewChild && window.parent!==window){
+    let lastHeight=0;
+    function reportHeight(){
+      const height=Math.ceil(byId('app').getBoundingClientRect().height);
+      if(height===lastHeight || !height)return;
+      lastHeight=height;
+      window.parent.postMessage({type:'sd.overview.height.v1',screen:initialRoute,height},frameOrigin==='null'?'*':frameOrigin);
+    }
+    if(window.ResizeObserver)new ResizeObserver(reportHeight).observe(byId('app'));
+    else new MutationObserver(reportHeight).observe(byId('app'),{subtree:true,childList:true,attributes:true});
+    window.addEventListener('resize',reportHeight);
+    window.addEventListener('load',reportHeight);
+    document.fonts?.ready.then(reportHeight);
+    requestAnimationFrame(reportHeight);
+  }
   if (media.addEventListener) media.addEventListener('change',configure);
   else media.addListener(configure);
 })();
